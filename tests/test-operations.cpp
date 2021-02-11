@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_SUITE(BOOST_TEST_MODULE)
 
 
 
-BOOST_AUTO_TEST_CASE(crossPoductBezier, * boost::unit_test::tolerance(0.001)) {
+BOOST_AUTO_TEST_CASE(crossPoductBezier) {
 
 
     t_pointX_t vec1;
@@ -44,11 +44,11 @@ BOOST_AUTO_TEST_CASE(crossPoductBezier, * boost::unit_test::tolerance(0.001)) {
         double dt = i / 100.;
         Eigen::Vector3d v1 = p1(dt);
         Eigen::Vector3d v2 = p2(dt);
-        BOOST_TEST(( pCross(dt) - v1.cross(v2)).norm()==0.);
+        BOOST_CHECK_CLOSE(( pCross(dt) - v1.cross(v2)).norm(), 0., 0.001);
     }
 }
 
-BOOST_AUTO_TEST_CASE(bezierOperations, * boost::unit_test::tolerance(0.001)) {
+BOOST_AUTO_TEST_CASE(bezierOperations) {
     t_pointX_t vec1;
     t_pointX_t vec2;
     for (int i =0; i<3; ++i)
@@ -89,18 +89,18 @@ BOOST_AUTO_TEST_CASE(bezierOperations, * boost::unit_test::tolerance(0.001)) {
     bezier_t pNeg  = -p1;
     for (double i = 20; i <=80.; ++i ){
         double dt = i / 100.;
-        BOOST_TEST(( pSum(dt)    - (p1(dt)+p2(dt))).norm()==0.);
-        BOOST_TEST((pSumR(dt)    - (p1(dt)+p2(dt))).norm()==0.);
-        BOOST_TEST(( pSumDev(dt) - (p1Dev(dt)+p2(dt))).norm()==0.);
-        BOOST_TEST((pSumRDev(dt) - (p1Dev(dt)+p2(dt))).norm()==0.);
-        BOOST_TEST((pSub(dt)     - (p1(dt)-p2(dt))).norm()==0.);
-        BOOST_TEST((pSubR(dt)    - (p2(dt)-p1(dt))).norm()==0.);
-        BOOST_TEST((pSubDev(dt)  - (p1Dev(dt)-p2(dt))).norm()==0.);
-        BOOST_TEST((pSubRDev(dt) - (p2(dt)-p1Dev(dt))).norm()==0.);
-        BOOST_TEST((pMul(dt)     -  p1(dt)*k).norm()==0.);
-        BOOST_TEST((pMulR(dt)    -  p1(dt)*k).norm()==0.);
-        BOOST_TEST(( pdiv(dt)    -  p1(dt)/k).norm()==0.);
-        BOOST_TEST(( pNeg(dt)    +  p1(dt)).norm() == 0);
+        BOOST_CHECK_CLOSE(( pSum(dt)    - (p1(dt)+p2(dt))).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE((pSumR(dt)    - (p1(dt)+p2(dt))).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE(( pSumDev(dt) - (p1Dev(dt)+p2(dt))).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE((pSumRDev(dt) - (p1Dev(dt)+p2(dt))).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE((pSub(dt)     - (p1(dt)-p2(dt))).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE((pSubR(dt)    - (p2(dt)-p1(dt))).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE((pSubDev(dt)  - (p1Dev(dt)-p2(dt))).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE((pSubRDev(dt) - (p2(dt)-p1Dev(dt))).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE((pMul(dt)     -  p1(dt)*k).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE((pMulR(dt)    -  p1(dt)*k).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE(( pdiv(dt)    -  p1(dt)/k).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE(( pNeg(dt)    +  p1(dt)).norm(), 0, 0.001);
     }
 
     pSum = bezier_t(p1); pSum += p2;
@@ -109,14 +109,14 @@ BOOST_AUTO_TEST_CASE(bezierOperations, * boost::unit_test::tolerance(0.001)) {
     pMul = p1; pMul *= k;
     for (double i = 20; i <=80.; ++i ){
         double dt = i / 100.;
-        BOOST_TEST(( pSum(dt) - (p1(dt)+p2(dt))).norm()==0.);
-        BOOST_TEST(( pSub(dt) - (p1(dt)-p2(dt))).norm()==0.);
-        BOOST_TEST(( pMul(dt) -  p1(dt)*k).norm()==0.);
-        BOOST_TEST(( pdiv(dt) -  p1(dt)/k).norm()==0.);
+        BOOST_CHECK_CLOSE(( pSum(dt) - (p1(dt)+p2(dt))).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE(( pSub(dt) - (p1(dt)-p2(dt))).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE(( pMul(dt) -  p1(dt)*k).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE(( pdiv(dt) -  p1(dt)/k).norm(), 0., 0.001);
     }
 }
 
-BOOST_AUTO_TEST_CASE(bezierPointOperations, * boost::unit_test::tolerance(0.001)) {
+BOOST_AUTO_TEST_CASE(bezierPointOperations) {
 
     t_pointX_t vec1;
     for (int i =0; i<6; ++i)
@@ -134,17 +134,17 @@ BOOST_AUTO_TEST_CASE(bezierPointOperations, * boost::unit_test::tolerance(0.001)
     bezier_t pcross = p1.cross(point);
     for (double i = 0.; i <=100.; ++i ){
         double dt = i / 100.;
-        BOOST_TEST(( pSum(dt) - (p1(dt)+point)).norm()==0.);
-        BOOST_TEST((pSumR(dt) - (p1(dt)+point)).norm()==0.);
-        BOOST_TEST(( pSub(dt) - (p1(dt)-point)).norm()==0.);
-        BOOST_TEST((pSubR(dt) - (point-p1(dt))).norm()==0.);
+        BOOST_CHECK_CLOSE(( pSum(dt) - (p1(dt)+point)).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE((pSumR(dt) - (p1(dt)+point)).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE(( pSub(dt) - (p1(dt)-point)).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE((pSubR(dt) - (point-p1(dt))).norm(), 0., 0.001);
         Eigen::Vector3d p1dt = p1(dt);
-        BOOST_TEST((pcross(dt) - (p1dt.cross(point))).norm()==0.);
+        BOOST_CHECK_CLOSE((pcross(dt) - (p1dt.cross(point))).norm(), 0., 0.001);
     }
 }
 
 
-BOOST_AUTO_TEST_CASE(crossPoductLinearVariable, * boost::unit_test::tolerance(0.001)) {
+BOOST_AUTO_TEST_CASE(crossPoductLinearVariable) {
     linear_variable_t l1(Eigen::Matrix3d::Identity() * 5., Eigen::Vector3d::Random());
     linear_variable_t l2(Eigen::Matrix3d::Identity() * 1., Eigen::Vector3d::Random());
     linear_variable_t lE(Eigen::Matrix3d::Random(), Eigen::Vector3d::Random());
@@ -155,11 +155,11 @@ BOOST_AUTO_TEST_CASE(crossPoductLinearVariable, * boost::unit_test::tolerance(0.
         Eigen::Vector3d x = Eigen::Vector3d::Random();
         Eigen::Vector3d v1 = l1(x);
         Eigen::Vector3d v2 = l2(x);
-        BOOST_TEST(( lcross(x) - v1.cross(v2)).norm()==0.);
+        BOOST_CHECK_CLOSE(( lcross(x) - v1.cross(v2)).norm(), 0., 0.001);
     }
 }
 
-BOOST_AUTO_TEST_CASE(crossProductBezierLinearVariable, * boost::unit_test::tolerance(0.001)) {
+BOOST_AUTO_TEST_CASE(crossProductBezierLinearVariable) {
     bezier_linear_variable_t::t_point_t vec1;
     bezier_linear_variable_t::t_point_t vec2;
     bezier_linear_variable_t::t_point_t zeroVec;
@@ -188,14 +188,14 @@ BOOST_AUTO_TEST_CASE(crossProductBezierLinearVariable, * boost::unit_test::toler
             double dt = i / 10.;
             Eigen::Vector3d v1 = f1(dt);
             Eigen::Vector3d v2 = f2(dt);
-            BOOST_TEST(( fcross(dt) - v1.cross(v2)).norm()==0.);
-            BOOST_TEST(( fCrossZero(dt)).norm()==0.);
+            BOOST_CHECK_CLOSE(( fcross(dt) - v1.cross(v2)).norm(), 0., 0.001);
+            BOOST_CHECK_CLOSE(( fCrossZero(dt)).norm(), 0., 0.001);
         }
     }
 }
 
 
-BOOST_AUTO_TEST_CASE(polynomialPointOperations, * boost::unit_test::tolerance(0.001)) {
+BOOST_AUTO_TEST_CASE(polynomialPointOperations) {
     polynomial_t::coeff_t coeffs1 = Eigen::MatrixXd::Random(3,5);
     Eigen::Vector3d point = Eigen::Vector3d::Random(3);
     polynomial_t p1(coeffs1,0.,1.);
@@ -207,16 +207,16 @@ BOOST_AUTO_TEST_CASE(polynomialPointOperations, * boost::unit_test::tolerance(0.
     polynomial_t pcross = p1.cross(point);
     for (double i = 0.; i <=100.; ++i ){
         double dt = i / 100.;
-        BOOST_TEST(( pSum(dt) - (p1(dt)+point)).norm()==0.);
-        BOOST_TEST((pSumR(dt) - (p1(dt)+point)).norm()==0.);
-        BOOST_TEST(( pSub(dt) - (p1(dt)-point)).norm()==0.);
-        BOOST_TEST((pSubR(dt) - (point-p1(dt))).norm()==0.);
+        BOOST_CHECK_CLOSE(( pSum(dt) - (p1(dt)+point)).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE((pSumR(dt) - (p1(dt)+point)).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE(( pSub(dt) - (p1(dt)-point)).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE((pSubR(dt) - (point-p1(dt))).norm(), 0., 0.001);
         Eigen::Vector3d p1dt = p1(dt);
-        BOOST_TEST((pcross(dt) - (p1dt.cross(point))).norm()==0.);
+        BOOST_CHECK_CLOSE((pcross(dt) - (p1dt.cross(point))).norm(), 0., 0.001);
     }
 }
 
-BOOST_AUTO_TEST_CASE(polynomialOperations, * boost::unit_test::tolerance(0.001)) {
+BOOST_AUTO_TEST_CASE(polynomialOperations) {
     polynomial_t::coeff_t coeffs1 = Eigen::MatrixXd::Random(3,5);
     polynomial_t::coeff_t coeffs2 = Eigen::MatrixXd::Random(3,2);
     polynomial_t p1(coeffs1,0.,1.);
@@ -243,14 +243,14 @@ BOOST_AUTO_TEST_CASE(polynomialOperations, * boost::unit_test::tolerance(0.001))
     polynomial_t pNeg  = -p1;
     for (double i = 0.; i <=100.; ++i ){
         double dt = i / 100.;
-        BOOST_TEST(( pSum(dt) - (p1(dt)+p2(dt))).norm()==0.);
-        BOOST_TEST((pSumR(dt) - (p1(dt)+p2(dt))).norm()==0.);
-        BOOST_TEST(( pSub(dt) - (p1(dt)-p2(dt))).norm()==0.);
-        BOOST_TEST((pSubR(dt) - (p2(dt)-p1(dt))).norm()==0.);
-        BOOST_TEST(( pMul(dt) -  p1(dt)*k).norm()==0.);
-        BOOST_TEST((pMulR(dt) -  p1(dt)*k).norm()==0.);
-        BOOST_TEST(( pdiv(dt) -  p1(dt)/k).norm()==0.);
-        BOOST_TEST(( pNeg(dt) +  p1(dt)).norm() == 0);
+        BOOST_CHECK_CLOSE(( pSum(dt) - (p1(dt)+p2(dt))).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE((pSumR(dt) - (p1(dt)+p2(dt))).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE(( pSub(dt) - (p1(dt)-p2(dt))).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE((pSubR(dt) - (p2(dt)-p1(dt))).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE(( pMul(dt) -  p1(dt)*k).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE((pMulR(dt) -  p1(dt)*k).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE(( pdiv(dt) -  p1(dt)/k).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE(( pNeg(dt) +  p1(dt)).norm(), 0, 0.001);
     }
 
     pSum = polynomial_t(p1); pSum += p2;
@@ -259,14 +259,14 @@ BOOST_AUTO_TEST_CASE(polynomialOperations, * boost::unit_test::tolerance(0.001))
     pMul = p1; pMul *= k;
     for (double i = 0.; i <=100.; ++i ){
         double dt = i / 100.;
-        BOOST_TEST(( pSum(dt) - (p1(dt)+p2(dt))).norm()==0.);
-        BOOST_TEST(( pSub(dt) - (p1(dt)-p2(dt))).norm()==0.);
-        BOOST_TEST(( pMul(dt) -  p1(dt)*k).norm()==0.);
-        BOOST_TEST(( pdiv(dt) -  p1(dt)/k).norm()==0.);
+        BOOST_CHECK_CLOSE(( pSum(dt) - (p1(dt)+p2(dt))).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE(( pSub(dt) - (p1(dt)-p2(dt))).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE(( pMul(dt) -  p1(dt)*k).norm(), 0., 0.001);
+        BOOST_CHECK_CLOSE(( pdiv(dt) -  p1(dt)/k).norm(), 0., 0.001);
     }
 }
 
-BOOST_AUTO_TEST_CASE(crossPoductPolynomials, * boost::unit_test::tolerance(0.001)) {
+BOOST_AUTO_TEST_CASE(crossPoductPolynomials) {
     polynomial_t::coeff_t coeffs1 = Eigen::MatrixXd::Random(3,5);
     polynomial_t::coeff_t coeffs2 = Eigen::MatrixXd::Random(3,2);
     polynomial_t::coeff_t coeffsDim4 = Eigen::MatrixXd::Random(4,2);
@@ -278,7 +278,7 @@ BOOST_AUTO_TEST_CASE(crossPoductPolynomials, * boost::unit_test::tolerance(0.001
     polynomial_t pDim4(coeffsDim4,0.,1.);
 
     //testing reduction
-    BOOST_CHECK_EQUAL (p1.cross(p1).degree(), 0);
+    BOOST_CHECK_CLOSE (p1.cross(p1).degree(), 0., 0.001);
 
     BOOST_CHECK_THROW( p1.cross(p3), std::exception );
     BOOST_CHECK_THROW( p1.cross(p4), std::exception );
@@ -291,11 +291,11 @@ BOOST_AUTO_TEST_CASE(crossPoductPolynomials, * boost::unit_test::tolerance(0.001
         double dt = i / 100.;
         Eigen::Vector3d v1 = p1(dt);
         Eigen::Vector3d v2 = p2(dt);
-        BOOST_TEST(( pCross(dt) - v1.cross(v2)).norm()==0.);
+        BOOST_CHECK_CLOSE(( pCross(dt) - v1.cross(v2)).norm(), 0., 0.001);
     }
 }
 
-BOOST_AUTO_TEST_CASE(crossPoductPolynomialSimplification, * boost::unit_test::tolerance(0.001)) {
+BOOST_AUTO_TEST_CASE(crossPoductPolynomialSimplification) {
     polynomial_t::coeff_t coeffs1 = Eigen::MatrixXd::Random(3,5);
     polynomial_t::coeff_t coeffs2 = Eigen::MatrixXd::Random(3,3);
     coeffs2.col(2) =coeffs1.col(4);
@@ -303,12 +303,12 @@ BOOST_AUTO_TEST_CASE(crossPoductPolynomialSimplification, * boost::unit_test::to
     polynomial_t p2(coeffs2,0.,1.);
 
     polynomial_t pCross  = p1.cross(p2);
-    BOOST_CHECK_EQUAL (pCross.degree(), 5);
+    BOOST_CHECK_CLOSE (pCross.degree(), 5., 0.001);
     for (double i = 0.; i <=100.; ++i ){
         double dt = i / 100.;
         Eigen::Vector3d v1 = p1(dt);
         Eigen::Vector3d v2 = p2(dt);
-        BOOST_TEST(( pCross(dt) - v1.cross(v2)).norm()==0.);
+        BOOST_CHECK_CLOSE(( pCross(dt) - v1.cross(v2)).norm(), 0., 0.001);
     }
 }
 
